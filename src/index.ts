@@ -29,7 +29,11 @@ app.post("/login", async (req, res) => {
   const user = await User.findOne({ username });
   if (user && (await verifyPassword(user.password, password))) {
     const token = generateJWT(username);
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     res.send({ success: true });
   } else {
     res.status(400).send({ error: "Invalid credentials" });
