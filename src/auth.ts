@@ -3,11 +3,11 @@ import bcrypt from "bcrypt";
 import User from "./models/user";
 
 export const generateJWT = (username: string) => {
-    return jwt.sign({ username }, 'YOUR_SECRET_KEY', { expiresIn: '5m' });
+    return jwt.sign({ username }, process.env.JWT_SECRET || '', { expiresIn: '30m' });
 }
 
 export const generateRefreshToken = async (username: string) => {
-    const token = jwt.sign({}, 'YOUR_REFRESH_TOKEN_SECRET_KEY');
+    const token = jwt.sign({}, process.env.JWT_SECRET || '');
     await User.updateOne({ username }, { refreshToken: token });
     return token;
 }
