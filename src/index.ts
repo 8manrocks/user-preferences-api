@@ -11,7 +11,14 @@ mongoose.connect(
 );
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      callback(null, true);
+    },
+    credentials: true,
+  })
+);
 app.post("/signup", async (req, res) => {
   const { username, password } = req.body;
   const userExist = await User.findOne({ username });
