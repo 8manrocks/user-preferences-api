@@ -9,12 +9,10 @@ export const authenticateJWT = (
   next: NextFunction
 ) => {
   const token = req.cookies?.token;
-    console.log(req,'token1')
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET || "", (err: any, user: any) => {
       if (err) {
         res.clearCookie("token");
-        console.log(token,'Forbidden')
         return res.sendStatus(403); // Forbidden
 
       }
@@ -22,7 +20,6 @@ export const authenticateJWT = (
       next();
     });
   } else {
-    console.log(token,'Unauthorized')
     res.sendStatus(401); // Unauthorized
   }
 };

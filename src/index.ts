@@ -5,11 +5,12 @@ import { generateJWT, verifyPassword } from "./auth";
 import { UserRequest, authenticateJWT } from "./middlewares/authMiddleware";
 import cors from "cors";
 import "dotenv/config";
-const app = express();
+import cookieParser from "cookie-parser";
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.wibzfgc.mongodb.net/user?retryWrites=true&w=majority`
 );
-
+const app = express();
+app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
